@@ -24,7 +24,7 @@ public interface ApiEndpointInterface {
 //    @POST("/api/msgcenter/send")
 //    Call<RespMessage> msgcenterSend(@FieldMap Map<String, String> hSend);
 
-    @GET("/api/msgcenter/history_list")
+    @GET("/api/msgcenter/user_history_list")
     Call<RespHistory> getHistory(@Query("phone_number") String phone_number, @Query("page") int page, @Query("limit") int limit,
                                  @Query("nonce") String nonce, @Query("signature") String signature);
 }

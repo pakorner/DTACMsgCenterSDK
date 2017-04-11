@@ -21,8 +21,8 @@ import android.content.Intent;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
-
 import java.util.Map;
+
 public class PushFCMListenerService extends FirebaseMessagingService {
 
     @Override
@@ -30,11 +30,13 @@ public class PushFCMListenerService extends FirebaseMessagingService {
         Map<String, String> data = message.getData();
         try {
 
-            System.out.println("xxx" + data);
+//            System.out.println("xxx " + data);
 
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction("fcm_message_receive");
             broadcastIntent.putExtra("data", new Gson().toJson(data));
+            sendBroadcast(broadcastIntent);
+
         }catch (Exception e) {
             e.printStackTrace();
         }

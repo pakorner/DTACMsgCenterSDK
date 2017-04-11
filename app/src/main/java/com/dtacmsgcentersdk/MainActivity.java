@@ -50,9 +50,8 @@ public class MainActivity extends AppCompatActivity implements OnTokenRefreshLis
         @Override
         public void onReceive(Context context, Intent intent) {
             Type type = new TypeToken<Map<String, String>>(){}.getType();
-
             Map<String, String> map = new Gson().fromJson(intent.getStringExtra("data"), type);
-            NotificationHandler.sendNotification(MainActivity.this, map);
+            NotificationHandler.getInstance().sendNotification(MainActivity.this, map);
         }
     };
 

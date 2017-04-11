@@ -27,12 +27,25 @@ import java.util.concurrent.ExecutionException;
 
 public class NotificationHandler {
 
+    private static NotificationHandler instance = null;
+
+    private NotificationHandler() {
+        // Exists only to defeat instantiation.
+    }
+
+    public static NotificationHandler getInstance() {
+        if(instance == null) {
+            instance = new NotificationHandler();
+        }
+        return instance;
+    }
+
     /**
      * Create and show a simple notification containing the received GCM message.
      *
      * @param data FCM data received.
      */
-    public static void sendNotification(Context context, Map<String, String> data) {
+    public void sendNotification(Context context, Map<String, String> data) {
         ArrayList<Intent> intentArrayList = new ArrayList<>();
         Intent mainIntent = new Intent(context, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
