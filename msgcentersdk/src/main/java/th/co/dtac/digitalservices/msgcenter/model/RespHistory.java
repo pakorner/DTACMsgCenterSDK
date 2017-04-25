@@ -20,39 +20,22 @@ public class RespHistory implements Serializable {
     @SerializedName("history_total")
     @Expose
     private Integer historyTotal;
+    @SerializedName("now")
+    @Expose
+    private Long now;
 
-    /**
-    *
-    * @return
-    * The status
-    */
     public Integer getStatus() {
     return status;
     }
 
-    /**
-    *
-    * @param status
-    * The status
-    */
     public void setStatus(Integer status) {
     this.status = status;
     }
 
-    /**
-    *
-    * @return
-    * The message
-    */
     public String getMessage() {
     return message;
     }
 
-    /**
-    *
-    * @param message
-    * The message
-    */
     public void setMessage(String message) {
 this.message = message;
 }
@@ -71,5 +54,13 @@ this.message = message;
 
     public void setHistoryTotal(Integer historyTotal) {
         this.historyTotal = historyTotal;
+    }
+
+    public Long getNow() {
+        return now;
+    }
+
+    public void setNow(Long now) {
+        this.now = now;
     }
 }
