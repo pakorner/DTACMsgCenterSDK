@@ -17,6 +17,7 @@
 package th.co.dtac.digitalservices.msgcenter.listener;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -31,7 +32,7 @@ public class PushFCMListenerService extends FirebaseMessagingService {
         try {
 
 //            System.out.println("xxx " + data);
-
+            Log.d("MESSAGE CENTER", "data : "+data);
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction("fcm_message_receive");
             broadcastIntent.putExtra("data", new Gson().toJson(data));
