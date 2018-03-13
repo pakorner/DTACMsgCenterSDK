@@ -2,6 +2,7 @@ package th.co.dtac.digitalservices.msgcenter.core;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -20,6 +21,10 @@ import th.co.dtac.digitalservices.msgcenter.utils.Utils;
 public class APIWrapper {
 
     public static final String BASE_URL = "http://ddos.dtac.co.th:3000/";
+
+    public static final String SUB_ACTIONP_NOTIFICATION = "notification";
+    public static final String SUB_ACTIONP_INBOX = "inbox";
+    public static final String ACTIONP_OPEN_BY = "open_by";
 
     private static APIWrapper instance = null;
 
@@ -85,6 +90,36 @@ public class APIWrapper {
         hMap.put("signature", nsHash.getSignature());
 
         Call<RespMessage> call = apiInterface.msgcenterRegister(hMap);
+        call.enqueue(callback);
+    }
+
+    public void getUpdateHistory(Context context, ArrayList<String> ids , boolean isRead, boolean isVisibility, Callback<RespMessage> callback) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(new GsonStringConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiEndpointInterface apiInterface = retrofit.create(ApiEndpointInterface.class);
+
+        NSHash nsHash = Utils.createNSHash(context, "limitnoncepagephonenumbersignature");
+
+        Call<RespMessage> call = apiInterface.msgcenterUpdate(ids, isVisibility, isRead, nsHash.getNonce(), nsHash.getSignature());
+        call.enqueue(callback);
+    }
+
+    public void getUpdateAction(Context context, String id , String action, String subAction, Callback<RespMessage> callback) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(new GsonStringConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiEndpointInterface apiInterface = retrofit.create(ApiEndpointInterface.class);
+
+        NSHash nsHash = Utils.createNSHash(context, "limitnoncepagephonenumbersignature");
+
+        Call<RespMessage> call = apiInterface.msgcenterUpdateAction(id, action, subAction, nsHash.getNonce(), nsHash.getSignature());
         call.enqueue(callback);
     }
 
