@@ -17,15 +17,15 @@
         </service>
         <!-- [END fcm_listener] -->
 
-        <!-- [START instanceId_listener] -->
-        <service
-            android:name=".listener.PushInstanceIDListenerService"
-            android:exported="true">
-            <intent-filter>
-                <!--<action android:name="com.google.android.gms.iid.InstanceID"/>-->
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+        <!--&lt;!&ndash; [START instanceId_listener] &ndash;&gt;-->
+        <!--<service-->
+            <!--android:name=".listener.PushInstanceIDListenerService"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--&lt;!&ndash;<action android:name="com.google.android.gms.iid.InstanceID"/>&ndash;&gt;-->
+                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
         <!-- [END instanceId_listener] -->
 
     </application>

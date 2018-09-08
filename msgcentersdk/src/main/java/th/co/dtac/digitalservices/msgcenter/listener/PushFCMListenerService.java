@@ -19,12 +19,22 @@ package th.co.dtac.digitalservices.msgcenter.listener;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import java.util.Map;
 
+import th.co.dtac.digitalservices.msgcenter.utils.Shared;
+
 public class PushFCMListenerService extends FirebaseMessagingService {
+
+    private static OnTokenRefreshListener listener;
+
+    public static void setOnTokenRefresh(OnTokenRefreshListener onTokenRefreshListener) {
+        listener = onTokenRefreshListener;
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
@@ -40,6 +50,26 @@ public class PushFCMListenerService extends FirebaseMessagingService {
 
         }catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onNewToken(String token) {
+        Log.d("TAG", "Refreshed token: " + token);
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+//        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        System.out.println("Refreshed token: " + token);
+
+        // Add custom implementation, as needed.
+        Shared.commitFcmToken(this, token);
+        // Once a token is generated, we subscribe to topic.
+        FirebaseMessaging.getInstance().subscribeToTopic("global");
+
+        if (listener != null) {
+            listener.onTokenRefresh(token);
         }
     }
 

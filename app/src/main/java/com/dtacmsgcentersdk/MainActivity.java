@@ -10,12 +10,17 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dtacmsgcentersdk.service.NotificationHandler;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import th.co.dtac.digitalservices.msgcenter.core.APIWrapper;
 import th.co.dtac.digitalservices.msgcenter.listener.OnTokenRefreshListener;
-import th.co.dtac.digitalservices.msgcenter.listener.PushInstanceIDListenerService;
+import th.co.dtac.digitalservices.msgcenter.listener.PushFCMListenerService;
 import th.co.dtac.digitalservices.msgcenter.model.RespMessage;
 import th.co.dtac.digitalservices.msgcenter.utils.Shared;
 import th.co.dtac.digitalservices.msgcenter.utils.SubrNumbEncrypter;
@@ -62,7 +67,22 @@ public class MainActivity extends AppCompatActivity implements OnTokenRefreshLis
 
         mPd = new ProgressDialog(this);
 
-        PushInstanceIDListenerService.setOnTokenRefresh(this);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this,  new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String newToken = instanceIdResult.getToken();
+
+                Log.e("newToken",newToken);
+
+                Shared.commitFcmToken(MainActivity.this, newToken);
+                // Once a token is generated, we subscribe to topic.
+                FirebaseMessaging.getInstance().subscribeToTopic("global");
+                // Once a token is generated, we subscribe to topic.
+                FirebaseMessaging.getInstance().subscribeToTopic("global");
+
+            }
+        });
+        PushFCMListenerService.setOnTokenRefresh(this);
 
         findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
