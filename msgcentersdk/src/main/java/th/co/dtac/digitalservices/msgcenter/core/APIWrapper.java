@@ -58,7 +58,7 @@ public class APIWrapper {
     public void register(Context context, String phoneEncrypt, String device, String telType,
                          String osVersion, String model, String appName, String appVersionName,
                          String appVersionCode, String sdkVersionCode, String udid,
-                         String dtacRegisterDate, String lang, String token,
+                         String dtacRegisterDate, String lang, String token, String dtacid,
                          Callback<RespMessage> callback) {
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -88,6 +88,7 @@ public class APIWrapper {
         hMap.put("token", token);
         hMap.put("nonce", nsHash.getNonce());
         hMap.put("signature", nsHash.getSignature());
+        hMap.put("dtac_id", dtacid);
 
         Call<RespMessage> call = apiInterface.msgcenterRegister(hMap);
         call.enqueue(callback);
