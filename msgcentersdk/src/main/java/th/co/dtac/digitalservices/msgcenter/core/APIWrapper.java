@@ -70,11 +70,12 @@ public class APIWrapper {
         ApiEndpointInterface apiInterface = retrofit.create(ApiEndpointInterface.class);
 
         NSHash nsHash = Utils.createNSHash(context,
-        "appnameappversioncodeappversionnamedevicedtacregisterdatelangmodelnonceosversionphonenumbersdkversioncodesignatureteltypetokenudid");
+        "appnameappversioncodeappversionnamedevicedtaciddtacregisterdatelangmodelnonceosversionphonenumbersdkversioncodesignatureteltypetokenudid");
 
         HashMap<String, String> hMap = new HashMap<>();
         hMap.put("phone_number", phoneEncrypt);
         hMap.put("device", device);
+        hMap.put("dtac_id", dtacid);
         hMap.put("tel_type", telType);
         hMap.put("os_version", osVersion);
         hMap.put("model", model);
@@ -88,7 +89,6 @@ public class APIWrapper {
         hMap.put("token", token);
         hMap.put("nonce", nsHash.getNonce());
         hMap.put("signature", nsHash.getSignature());
-        hMap.put("dtac_id", dtacid);
 
         Call<RespMessage> call = apiInterface.msgcenterRegister(hMap);
         call.enqueue(callback);
