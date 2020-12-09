@@ -178,26 +178,26 @@ public class MainActivity extends AppCompatActivity implements OnTokenRefreshLis
 
         SubrNumbEncrypter subrNumbEncrypter = new SubrNumbEncrypter();
 
-        APIWrapper.getInstance().register(this, subrNumbEncrypter.encrypt(phone), "android", "T/P",
-                Build.VERSION.RELEASE, Build.MODEL, "dtac_app", version, String.valueOf(verCode), String.valueOf(verCode),
-                Shared.getMockUDID(this), "", Shared.getLang(this), Shared.getFcmToken(this), new Callback<RespMessage>() {
-                    @Override
-                    public void onResponse(Call<RespMessage> call, Response<RespMessage> response) {
-                        RespMessage respMessage = response.body();
-                        if (respMessage != null && respMessage.getStatus() == 200) {
-                            System.out.println("fcm registration " + respMessage.getMessage());
-                            Toast.makeText(MainActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
-                        }else {
-                            Toast.makeText(MainActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                        mPd.dismiss();
-                    }
-
-                    @Override
-                    public void onFailure(Call<RespMessage> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+//        APIWrapper.getInstance().register(this, subrNumbEncrypter.encrypt(phone), "android", "T/P",
+//                Build.VERSION.RELEASE, Build.MODEL, "dtac_app", version, String.valueOf(verCode), String.valueOf(verCode),
+//                Shared.getMockUDID(this), "", Shared.getLang(this), Shared.getFcmToken(this), new Callback<RespMessage>() {
+//                    @Override
+//                    public void onResponse(Call<RespMessage> call, Response<RespMessage> response) {
+//                        RespMessage respMessage = response.body();
+//                        if (respMessage != null && respMessage.getStatus() == 200) {
+//                            System.out.println("fcm registration " + respMessage.getMessage());
+//                            Toast.makeText(MainActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
+//                        }else {
+//                            Toast.makeText(MainActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                        mPd.dismiss();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<RespMessage> call, Throwable t) {
+//                        t.printStackTrace();
+//                    }
+//                });
     }
 
     @Override

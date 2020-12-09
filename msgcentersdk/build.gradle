@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 15
-        versionName "0.0.20"
+        versionCode 21
+        versionName "0.0.21"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -40,10 +40,10 @@ repositories {
     maven {
         credentials {
             username 'admin'
-            password 'dtacmobile'
+            password '1qaz2wsx@'
         }
 
-        url 'http://52.220.1.86:8081/repository/dtac-releases/'
+        url 'http://18.141.185.98:8081/repository/maven-releases'
     }
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -70,12 +70,12 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "http://52.220.1.86:8081/repository/dtac-releases/") {
+            repository(url: "http://18.141.185.98:8081/repository/maven-releases") {
 //                repository(url: "http://52.220.1.86:8081/repository/mobilertr-releases/") {
 
-                authentication(userName: "dtacdev", password: "dtacdevmobile")
+                authentication(userName: "admin", password: "1qaz2wsx@")
             }
-            pom.version = "0.0.20"
+            pom.version = "0.0.21"
             pom.artifactId = "msgcentersdk"
             pom.groupId = "th.co.dtac.onlineteam"
         }

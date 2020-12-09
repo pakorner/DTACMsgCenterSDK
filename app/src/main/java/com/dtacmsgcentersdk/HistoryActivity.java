@@ -177,26 +177,26 @@ public class HistoryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        APIWrapper.getInstance().register(this, mSubrNumbEncrypter.encrypt(phone), "android", "T/P",
-                Build.VERSION.RELEASE, Build.MODEL, "dtac_app", version, String.valueOf(verCode), String.valueOf(verCode),
-                Shared.getMockUDID(this), "", Shared.getLang(this), Shared.getFcmToken(this), new Callback<RespMessage>() {
-                    @Override
-                    public void onResponse(Call<RespMessage> call, Response<RespMessage> response) {
-                        RespMessage respMessage = response.body();
-                        if (respMessage != null && respMessage.getStatus() == 200) {
-                            System.out.println("fcm registration " + respMessage.getMessage());
-                            Toast.makeText(HistoryActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
-                        }else {
-                            Toast.makeText(HistoryActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                        mPd.dismiss();
-                    }
-
-                    @Override
-                    public void onFailure(Call<RespMessage> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+//        APIWrapper.getInstance().register(this, mSubrNumbEncrypter.encrypt(phone), "android", "T/P",
+//                Build.VERSION.RELEASE, Build.MODEL, "dtac_app", version, String.valueOf(verCode), String.valueOf(verCode),
+//                Shared.getMockUDID(this), "", Shared.getLang(this), Shared.getFcmToken(this), new Callback<RespMessage>() {
+//                    @Override
+//                    public void onResponse(Call<RespMessage> call, Response<RespMessage> response) {
+//                        RespMessage respMessage = response.body();
+//                        if (respMessage != null && respMessage.getStatus() == 200) {
+//                            System.out.println("fcm registration " + respMessage.getMessage());
+//                            Toast.makeText(HistoryActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
+//                        }else {
+//                            Toast.makeText(HistoryActivity.this, "fcm registration " + respMessage.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                        mPd.dismiss();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<RespMessage> call, Throwable t) {
+//                        t.printStackTrace();
+//                    }
+//                });
     }
 
 }
