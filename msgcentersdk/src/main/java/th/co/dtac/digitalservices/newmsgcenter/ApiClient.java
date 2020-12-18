@@ -15,6 +15,7 @@ import th.co.dtac.digitalservices.msgcenter.utils.Utils;
 import th.co.dtac.digitalservices.newmsgcenter.response.RespMessage;
 
 import static th.co.dtac.digitalservices.newmsgcenter.ServiceProperties.BASE_URL;
+import static th.co.dtac.digitalservices.newmsgcenter.ServiceProperties.BASE_URL_DEV;
 
 public class ApiClient {
 
@@ -58,13 +59,13 @@ public class ApiClient {
 //        return retrofit.create(EndpointInterface.class);
 //    }
 
-    public void register(Context context, String phoneEncrypt, String device, String telType,
+    public void register(Boolean isTest, Context context, String phoneEncrypt, String device, String telType,
                          String osVersion, String model, String appName, String appVersionName,
                          String appVersionCode, String sdkVersionCode, String udid,
                          String dtacRegisterDate, String lang, String token, String dtacid,
                          Callback<RespMessage> callback) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(isTest ? BASE_URL_DEV : BASE_URL)
                 .addConverterFactory(new GsonStringConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
