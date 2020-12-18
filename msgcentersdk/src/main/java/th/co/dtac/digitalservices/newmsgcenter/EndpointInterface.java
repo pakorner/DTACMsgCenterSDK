@@ -25,6 +25,6 @@ public interface EndpointInterface {
 //    void registerTokenPost(@Field("token") String token, @Header("Authorization") String bearerToken);
 
     @FormUrlEncoded
-    @POST("/register")
+    @POST("register")
     Call<RespMessage> msgcenterRegister(@FieldMap Map<String, String> hRegister);
 }

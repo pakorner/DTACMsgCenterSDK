@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 21
-        versionName "0.0.21"
+        versionCode 22
+        versionName "0.0.22"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -76,7 +76,7 @@ uploadArchives {
 
                 authentication(userName: "admin", password: "1qaz2wsx@")
             }
-            pom.version = "0.0.21"
+            pom.version = "0.0.22"
             pom.artifactId = "msgcentersdk"
             pom.groupId = "th.co.dtac.onlineteam"
         }
