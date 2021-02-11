@@ -63,6 +63,7 @@ public class ApiClient {
                          String osVersion, String model, String appName, String appVersionName,
                          String appVersionCode, String sdkVersionCode, String udid,
                          String dtacRegisterDate, String lang, String token, String dtacid,
+                         String lat, String lng, Boolean isAcceptConsent, Boolean isAcceptPush,
                          Callback<RespMessage> callback) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(isTest ? BASE_URL_DEV : BASE_URL)
@@ -92,8 +93,10 @@ public class ApiClient {
         hMap.put("token", token);
         hMap.put("nonce", nsHash.getNonce());
         hMap.put("signature", nsHash.getSignature());
+        hMap.put("lat", lat);
+        hMap.put("lng", lng);
 
-        Call<RespMessage> call = endpointInterface.msgcenterRegister(hMap);
+        Call<RespMessage> call = endpointInterface.msgcenterRegister(hMap, isAcceptConsent, isAcceptPush);
         call.enqueue(callback);
     }
 }
