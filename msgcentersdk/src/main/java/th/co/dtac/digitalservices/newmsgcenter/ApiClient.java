@@ -94,7 +94,7 @@ public class ApiClient {
         hMap.put("nonce", nsHash.getNonce());
         hMap.put("signature", nsHash.getSignature());
         hMap.put("lat", lat);
-        hMap.put("lng", lng);
+        hMap.put("long", lng);
 
         Call<RespMessage> call = endpointInterface.msgcenterRegister(hMap, isAcceptConsent, isAcceptPush);
         call.enqueue(callback);
