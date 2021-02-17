@@ -63,7 +63,7 @@ public class ApiClient {
                          String osVersion, String model, String appName, String appVersionName,
                          String appVersionCode, String sdkVersionCode, String udid,
                          String dtacRegisterDate, String lang, String token, String dtacid,
-                         String lat, String lng, Boolean isAcceptConsent, Boolean isAcceptPush,
+                         String lat, String lng, Boolean isAcceptPush,
                          Callback<RespMessage> callback) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(isTest ? BASE_URL_DEV : BASE_URL)
@@ -96,7 +96,48 @@ public class ApiClient {
         hMap.put("lat", lat);
         hMap.put("long", lng);
 
-        Call<RespMessage> call = endpointInterface.msgcenterRegister(hMap, isAcceptConsent, isAcceptPush);
+        Call<RespMessage> call = endpointInterface.msgcenterRegister(hMap, isAcceptPush);
+        call.enqueue(callback);
+    }
+
+    public void updateConsent(Boolean isTest, Context context, String phoneEncrypt, String device, String telType,
+                              String osVersion, String model, String appName, String appVersionName,
+                              String appVersionCode, String sdkVersionCode, String udid,
+                              String dtacRegisterDate, String lang, String token, String dtacid,
+                              String lat, String lng, Boolean isAcceptConsent, Boolean isAcceptPush,
+                              Callback<RespMessage> callback) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(isTest ? BASE_URL_DEV : BASE_URL)
+                .addConverterFactory(new GsonStringConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
+
+        NSHash nsHash = Utils.createNSHash(context,
+                "appnameappversioncodeappversionnamedevicedtaciddtacregisterdatelangmodelnonceosversionphonenumbersdkversioncodesignatureteltypetokenudid");
+
+        HashMap<String, String> hMap = new HashMap<>();
+        hMap.put("phone_number", phoneEncrypt);
+        hMap.put("device", device);
+        hMap.put("dtac_id", dtacid);
+        hMap.put("tel_type", telType);
+        hMap.put("os_version", osVersion);
+        hMap.put("model", model);
+        hMap.put("app_name", appName);
+        hMap.put("app_version_name", appVersionName);
+        hMap.put("app_version_code", appVersionCode);
+        hMap.put("sdk_version_code", sdkVersionCode);
+        hMap.put("udid", udid);
+        hMap.put("dtac_register_date", dtacRegisterDate);
+        hMap.put("lang", lang);
+        hMap.put("token", token);
+        hMap.put("nonce", nsHash.getNonce());
+        hMap.put("signature", nsHash.getSignature());
+        hMap.put("lat", lat);
+        hMap.put("long", lng);
+
+        Call<RespMessage> call = endpointInterface.msgcenterUpdateConsent(hMap, isAcceptConsent, isAcceptPush);
         call.enqueue(callback);
     }
 }

@@ -27,6 +27,11 @@ public interface EndpointInterface {
     @FormUrlEncoded
     @POST("register")
     Call<RespMessage> msgcenterRegister(@FieldMap Map<String, String> hRegister,
+                                        @Field("status_open_push") Boolean isAcceptPush);
+
+    @FormUrlEncoded
+    @POST("register")
+    Call<RespMessage> msgcenterUpdateConsent(@FieldMap Map<String, String> hRegister,
                                         @Field("consent_accept_push") Boolean isAcceptConsent,
                                         @Field("status_open_push") Boolean isAcceptPush);
 }
