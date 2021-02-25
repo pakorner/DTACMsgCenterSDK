@@ -2,9 +2,10 @@ package th.co.dtac.digitalservices.newmsgcenter;
 
 import android.content.Context;
 
+import java.io.IOException;
 import java.util.HashMap;
-
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -12,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import th.co.dtac.digitalservices.msgcenter.core.GsonStringConverterFactory;
 import th.co.dtac.digitalservices.msgcenter.model.NSHash;
 import th.co.dtac.digitalservices.msgcenter.utils.Utils;
+import th.co.dtac.digitalservices.newmsgcenter.request.SendStatisticRequestModel;
 import th.co.dtac.digitalservices.newmsgcenter.response.RespMessage;
 
 import static th.co.dtac.digitalservices.newmsgcenter.ServiceProperties.BASE_URL;
@@ -30,34 +32,20 @@ public class ApiClient {
 
     private EndpointInterface endpointInterface = null;
 
-//    public EndpointInterface getEndpointInterface( ) {
-//        if (endpointInterface == null) {
-//            endpointInterface = createEndpointInterface();
-//        }
-//        return endpointInterface;
-//    }
-
-//    private HttpLoggingInterceptor getHttpLogginInterceptor() {
-//        HttpLoggingInterceptor logginInterceptor = new HttpLoggingInterceptor();
-//        logginInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        return logginInterceptor;
-//    }
-
-    private OkHttpClient createOkhttpClient() {
+    private Retrofit getRetrofit(boolean isTest) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
-//                .addInterceptor(getHttpLogginInterceptor())
+                .addInterceptor(logging)
                 .build();
-        return client;
-    }
 
-//    private EndpointInterface createEndpointInterface() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-////                .client(createOkhttpClient())
-//                .build();
-//        return retrofit.create(EndpointInterface.class);
-//    }
+        return new Retrofit.Builder()
+                .baseUrl(isTest ? BASE_URL_DEV : BASE_URL)
+                .client(client)
+                .addConverterFactory(new GsonStringConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
 
     public void register(Boolean isTest, Context context, String phoneEncrypt, String device, String telType,
                          String osVersion, String model, String appName, String appVersionName,
@@ -65,12 +53,7 @@ public class ApiClient {
                          String dtacRegisterDate, String lang, String token, String dtacid,
                          String lat, String lng, Boolean isAcceptPush,
                          Callback<RespMessage> callback) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(isTest ? BASE_URL_DEV : BASE_URL)
-                .addConverterFactory(new GsonStringConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
+        Retrofit retrofit = getRetrofit(isTest);
         EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
 
         NSHash nsHash = Utils.createNSHash(context,
@@ -106,12 +89,7 @@ public class ApiClient {
                               String dtacRegisterDate, String lang, String token, String dtacid,
                               String lat, String lng, Boolean isAcceptConsent, Boolean isAcceptPush,
                               Callback<RespMessage> callback) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(isTest ? BASE_URL_DEV : BASE_URL)
-                .addConverterFactory(new GsonStringConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
+        Retrofit retrofit = getRetrofit(isTest);
         EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
 
         NSHash nsHash = Utils.createNSHash(context,
@@ -139,5 +117,35 @@ public class ApiClient {
 
         Call<RespMessage> call = endpointInterface.msgcenterUpdateConsent(hMap, isAcceptConsent, isAcceptPush);
         call.enqueue(callback);
+    }
+
+    public void sendStatisticNotificationAsync(boolean isTest, String messageId, String dtacId, String status, Callback<RespMessage> callback) {
+        Retrofit retrofit = getRetrofit(isTest);
+        EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
+
+        SendStatisticRequestModel requestModel = new SendStatisticRequestModel();
+        requestModel.setMessageId(messageId)
+                .setDtacId(dtacId)
+                .setStatus(status);
+
+        Call<RespMessage> call = endpointInterface.sendStatisticNotification(requestModel);
+        call.enqueue(callback);
+    }
+
+    public void sendStatisticNotificationSync(boolean isTest, String messageId, String dtacId, String status) {
+        Retrofit retrofit = getRetrofit(isTest);
+        EndpointInterface endpointInterface = retrofit.create(EndpointInterface.class);
+
+        SendStatisticRequestModel requestModel = new SendStatisticRequestModel();
+        requestModel.setMessageId(messageId)
+                .setDtacId(dtacId)
+                .setStatus(status);
+
+        Call<RespMessage> call = endpointInterface.sendStatisticNotification(requestModel);
+        try {
+            call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

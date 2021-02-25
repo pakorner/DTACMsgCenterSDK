@@ -3,6 +3,7 @@ package th.co.dtac.digitalservices.newmsgcenter;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -11,6 +12,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import th.co.dtac.digitalservices.newmsgcenter.request.SendStatisticRequestModel;
 import th.co.dtac.digitalservices.newmsgcenter.response.RespMessage;
 import th.co.dtac.digitalservices.newmsgcenter.response.TestResponseModel;
 
@@ -34,4 +36,8 @@ public interface EndpointInterface {
     Call<RespMessage> msgcenterUpdateConsent(@FieldMap Map<String, String> hRegister,
                                         @Field("consent_accept_push") Boolean isAcceptConsent,
                                         @Field("status_open_push") Boolean isAcceptPush);
+
+    @FormUrlEncoded
+    @POST("notification")
+    Call<RespMessage> sendStatisticNotification(@Body SendStatisticRequestModel requestModel);
 }
