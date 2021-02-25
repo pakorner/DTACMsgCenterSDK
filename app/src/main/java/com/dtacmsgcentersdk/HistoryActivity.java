@@ -7,15 +7,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dtacmsgcentersdk.adapter.HistoryAdapter;
 import com.google.gson.JsonObject;
@@ -26,7 +26,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import th.co.dtac.digitalservices.msgcenter.core.APIWrapper;
 import th.co.dtac.digitalservices.msgcenter.model.RespHistory;
-import th.co.dtac.digitalservices.msgcenter.model.RespMessage;
 import th.co.dtac.digitalservices.msgcenter.utils.Shared;
 import th.co.dtac.digitalservices.msgcenter.utils.SubrNumbEncrypter;
 

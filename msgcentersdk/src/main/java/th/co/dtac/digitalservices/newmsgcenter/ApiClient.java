@@ -4,12 +4,15 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.util.HashMap;
+
+import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import th.co.dtac.digitalservices.msgcenter.BuildConfig;
 import th.co.dtac.digitalservices.msgcenter.core.GsonStringConverterFactory;
 import th.co.dtac.digitalservices.msgcenter.model.NSHash;
 import th.co.dtac.digitalservices.msgcenter.utils.Utils;
@@ -83,6 +86,14 @@ public class ApiClient {
         call.enqueue(callback);
     }
 
+    private String getCredentials(boolean isTest) {
+        if (isTest) {
+            return Credentials.basic("noti", "notitestpassword");
+        } else {
+            return Credentials.basic("noti", "N0t!MsgCenter");
+        }
+    }
+
     public void updateConsent(Boolean isTest, Context context, String phoneEncrypt, String device, String telType,
                               String osVersion, String model, String appName, String appVersionName,
                               String appVersionCode, String sdkVersionCode, String udid,
@@ -128,7 +139,7 @@ public class ApiClient {
                 .setDtacId(dtacId)
                 .setStatus(status);
 
-        Call<RespMessage> call = endpointInterface.sendStatisticNotification(requestModel);
+        Call<RespMessage> call = endpointInterface.sendStatisticNotification(getCredentials(isTest), requestModel);
         call.enqueue(callback);
     }
 
@@ -141,11 +152,15 @@ public class ApiClient {
                 .setDtacId(dtacId)
                 .setStatus(status);
 
-        Call<RespMessage> call = endpointInterface.sendStatisticNotification(requestModel);
+        Call<RespMessage> call = endpointInterface.sendStatisticNotification(getCredentials(isTest), requestModel);
         try {
             call.execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getVersion() {
+        return BuildConfig.VERSION_NAME;
     }
 }

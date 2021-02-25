@@ -37,5 +37,7 @@ public interface EndpointInterface {
                                         @Field("status_open_push") Boolean isAcceptPush);
 
     @POST("notification")
-    Call<RespMessage> sendStatisticNotification(@Body SendStatisticRequestModel requestModel);
+    Call<RespMessage> sendStatisticNotification(
+            @Header("Authorization") String credentials,
+            @Body SendStatisticRequestModel requestModel);
 }
